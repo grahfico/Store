@@ -1,4 +1,5 @@
-﻿using Store.Web.Data.Entities;
+﻿
+using Store.Web.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
