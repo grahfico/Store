@@ -1,13 +1,12 @@
-﻿using Store.Web.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Store.Web.Data
+﻿namespace Store.Web.Data
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Store.Web.Data.Entities;
+
     public interface IProductRepository : IGenericRepository<Product>
     {
+        IQueryable GetAllWithUsers();
         Task<bool> ExistsAsync(int id);
     }
 }
