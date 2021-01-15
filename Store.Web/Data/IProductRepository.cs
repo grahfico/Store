@@ -8,5 +8,6 @@ namespace Store.Web.Data
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        Task<bool> ExistsAsync(int id);
     }
 }

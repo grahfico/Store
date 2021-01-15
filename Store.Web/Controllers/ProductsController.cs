@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Store.Web.Data;
 using Store.Web.Data.Entities;
+using Store.Web.Helpers;
 
 namespace Store.Web.Controllers
 {
-      public class ProductsController : Controller
+    public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
+        private readonly IUserHelper userHelper;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IUserHelper userHelper)
         {
             this.productRepository = productRepository;
+            this.userHelper = userHelper;
         }
 
         // GET: Products
@@ -34,7 +37,6 @@ namespace Store.Web.Controllers
             }
 
             var product = await this.productRepository.GetByIdAsync(id.Value);
-
             if (product == null)
             {
                 return NotFound();
@@ -58,6 +60,8 @@ namespace Store.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                //TODO: Change for the logged user
+                product.User = await this.userHelper.GetUserByEmailAsync("rafaelsantos@portugalmail.pt");
                 await this.productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -92,11 +96,13 @@ namespace Store.Web.Controllers
             {
                 try
                 {
+                    //TODO: Change for the logged user
+                    product.User = await this.userHelper.GetUserByEmailAsync("rafaelsantos@portugalmail.pt");
                     await this.productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await this.productRepository.ExistsASync(product.Id))
+                    if (!await this.productRepository.ExistsAsync(product.Id))
                     {
                         return NotFound();
                     }
@@ -110,11 +116,6 @@ namespace Store.Web.Controllers
             return View(product);
         }
 
-        private void UpdateProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -124,7 +125,6 @@ namespace Store.Web.Controllers
             }
 
             var product = await this.productRepository.GetByIdAsync(id.Value);
-
             if (product == null)
             {
                 return NotFound();
@@ -142,7 +142,5 @@ namespace Store.Web.Controllers
             await this.productRepository.DeleteAsync(product);
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }
