@@ -18,7 +18,7 @@ namespace Store.Web.Data
 
         public IQueryable<T> GetAll()
         {
-            return this.context.Set<T>().AsNoTracking();
+            return this.context.Set<T>().AsNoTracking().OrderBy(e => e.Name);
         }
 
         public async Task<T> GetByIdAsync(int id)
