@@ -1,21 +1,21 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Store.Web.Data;
-using Store.Web.Data.Entities;
-using Store.Web.Helpers;
-using Store.Web.Models;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace Store.Web.Controllers
+﻿namespace Store.Web.Controllers
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Data;
+    using Data.Entities;
+    using Helpers;
+    using Models;
+    using Microsoft.AspNetCore.Authorization;
 
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
         private readonly IUserHelper userHelper;
+
 
         public ProductsController(IProductRepository productRepository, IUserHelper userHelper)
         {
@@ -46,8 +46,9 @@ namespace Store.Web.Controllers
             return View(product);
         }
 
-        [Authorize]
+
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -110,7 +111,7 @@ namespace Store.Web.Controllers
 
 
         // GET: Products/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -150,7 +151,7 @@ namespace Store.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductViewModel view)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,ImageUrl,LastPurchase,LastSale,IsAvailable,Stock")] ProductViewModel view)
         {
 
             if (ModelState.IsValid)
@@ -203,7 +204,7 @@ namespace Store.Web.Controllers
         }
 
         // GET: Products/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

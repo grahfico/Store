@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Login";
 }
-
 <h2>Login</h2>
 
 <div class="row">
@@ -22,7 +21,7 @@
             <div class="form-group">
                 <div class="form-check">
                     <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
-                    <label asp-for="RememberMe" class="form-check-label">Remember Me?</label>
+                    <label asp-for="RememberMe" class="form-check-label">Remember Me? </label>
                 </div>
                 <span asp-validation-for="RememberMe" class="text-warning"></span>
             </div>
@@ -34,6 +33,6 @@
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts{ 
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
