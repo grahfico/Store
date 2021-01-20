@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Store.Web.Data;
 using Store.Web.Data.Entities;
 using Store.Web.Helpers;
 using Store.Web.Models;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Store.Web.Controllers
 {
@@ -88,8 +85,7 @@ namespace Store.Web.Controllers
 
                 var product = this.ToProduct(view, path);
 
-                //TODO: Change for the logged user
-                product.User = await this.userHelper.GetUserByEmailAsync("rafaelsantos@portugalmail.pt");
+                product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await this.productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -187,9 +183,7 @@ namespace Store.Web.Controllers
                     }
                     var product = this.ToProduct(view, path);
 
-
-                    //TODO: Change for the logged user
-                    product.User = await this.userHelper.GetUserByEmailAsync("rafaelsantos@portugalmail.pt");
+                    product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await this.productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
