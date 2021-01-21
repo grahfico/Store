@@ -1,4 +1,5 @@
-﻿namespace Store.Web.Controllers
+﻿
+namespace Store.Web.Controllers
 {
     using System;
     using System.IO;
@@ -15,7 +16,6 @@
     {
         private readonly IProductRepository productRepository;
         private readonly IUserHelper userHelper;
-
 
         public ProductsController(IProductRepository productRepository, IUserHelper userHelper)
         {
